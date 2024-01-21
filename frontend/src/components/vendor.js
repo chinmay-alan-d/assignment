@@ -43,7 +43,7 @@ function Items({ currentItems }) {
                                         }}>Edit</button>
                                     </td>
                                     <td style={{ border: "1px solid black", padding: "2vh 2vw" }}>
-                                        <button className='btn btn-outline-primary' onClick={() => {
+                                        <button className='btn btn-outline-danger' onClick={() => {
                                             axios.post('http://localhost:4000/delete',{
                                                 vendorid : item.vendorid
                                             }).then(response=>{
