@@ -9,6 +9,13 @@ const NotAuthenticated = () => {
     )
 }
 
+const center_div = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+}
+
 const LoadScreen = () => {
     return (
         <h2>Hold tight....</h2>
@@ -16,36 +23,41 @@ const LoadScreen = () => {
 }
 
 const ProfileHeper = () => {
-    const {user} = useAuth0();
+    const { user } = useAuth0();
     return (
-        <>
-            <img src={user.picture} alt="user.name"></img>
-            <h3>{user.email}</h3>
-            <h3>{user.name}</h3>
-        </>
+        <div style={center_div}>
+            <div className="card" style={{ width: '15rem' }}>
+                <img className="card-img-top" src={user.picture} alt={user.given_name}/>
+                <div className="card-body">
+                    <h5 className="card-title">{user.name}</h5>
+                    <p className="card-text">{user.email}</p>
+                </div>
+            </div>
+        </div>
     );
 }
 
+
 const Authenticated = () => {
-    const {isLoading} = useAuth0();
+    const { isLoading } = useAuth0();
     return (
         <>
             {
-                isLoading ? <LoadScreen/> :
-                <ProfileHeper/>
+                isLoading ? <LoadScreen /> :
+                    <ProfileHeper />
             }
         </>
     );
 }
 
 function Profile() {
-    const {isAuthenticated} = useAuth0();
+    const { isAuthenticated } = useAuth0();
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             {
-                !isAuthenticated ? <NotAuthenticated/> 
-                : <Authenticated/>
+                !isAuthenticated ? <NotAuthenticated />
+                    : <Authenticated />
             }
         </div>
     );

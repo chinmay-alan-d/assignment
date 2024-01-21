@@ -59,6 +59,32 @@ app.post('/addvendor',(req,res)=>{
     // res.status(200).send('OK');
 });
 
+app.post('/getvendors',(req,res)=>{
+    const email = req.body.email;
+    connection.query(`SELECT userid FROM user WHERE userEmail="${email}"`,(iderr,idresponse)=>{
+        if(iderr) throw iderr;
+        const id = idresponse[0]['userid'];
+        connection.query(`SELECT * FROM VENDORS WHERE userid="${id}"`,(fetchErr,fetchResponse)=>{
+            if(fetchErr) throw fetchErr;
+            res.status(200).send(fetchResponse);
+        })
+    })
+    res.status(401);
+});
+
+app.post("/edit",(req,res)=>{
+    const vendorid = req.body.vendorid;
+    const addressLineOne = req.body.addressLineOne;
+    const addressLineTwo = req.body.addressLineTwo;
+    const city = req.body.city;
+    const zip = req.body.zip;
+    connection.query(`UPDATE vendors SET addressLineOne = "${addressLineOne}" , addressLineTwo = "${addressLineTwo}", city = "${city}", zipCode = "${zip}" WHERE vendorid = "${vendorid}";`,(err,result)=>{
+        if(err) throw err;
+        res.status(200);
+    })
+    res.status(401);
+})
+
 app.listen(PORT,()=>{
     console.log(`server running on PORT ${PORT}`);
 })

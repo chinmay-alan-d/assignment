@@ -46,7 +46,7 @@ const ShowForm = () => {
                 alert("Sorry Try Again...")
             }
         }).catch(err=>{
-            console.log(err);
+            alert("Server Error Try again Later");
         })
         e.preventDefault();
     }

@@ -4,10 +4,11 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AddVendor from "./components/addvendor";
 // import Vendor from "./components/vendor";
-import Vendors from "./components/vendores";
 import reportWebVitals from './reportWebVitals';
 import Profile from './components/profile';
 import { Auth0Provider } from '@auth0/auth0-react';
+import Vendors from './components/vendor';
+import Edit from './components/edit';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,9 +22,9 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AddVendor />} />
-        {/* <Route path="/profile" element={<Profile/>} /> */}
-        <Route path="/vendors" element={<Vendors />} />
+        <Route path="/vendors" element={<Vendors/>}/>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/vendors/:id" element={<Edit/>}/>
       </Routes>
     </BrowserRouter>
   </Auth0Provider>
