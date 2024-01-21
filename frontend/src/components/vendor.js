@@ -26,6 +26,7 @@ function Items({ currentItems }) {
                                     <th style={{ border: "1px solid black", padding: "2vh 2vw" }}>City</th>
                                     <th style={{ border: "1px solid black", padding: "2vh 2vw" }}>Zip</th>
                                     <th style={{ border: "1px solid black", padding: "2vh 2vw" }}>Edit</th>
+                                    <th style={{ border: "1px solid black", padding: "2vh 2vw" }}>Delete</th>
                                 </tr>
                                 <tr style={{ border: "1px solid black" }}>
                                     <td style={{ border: "1px solid black", padding: "2vh 2vw" }}>{item.vendorName}</td>
@@ -40,6 +41,18 @@ function Items({ currentItems }) {
                                         <button className='btn btn-outline-primary' onClick={() => {
                                             navigate(`/vendors/${item.vendorid}`);
                                         }}>Edit</button>
+                                    </td>
+                                    <td style={{ border: "1px solid black", padding: "2vh 2vw" }}>
+                                        <button className='btn btn-outline-primary' onClick={() => {
+                                            axios.post('http://localhost:4000/delete',{
+                                                vendorid : item.vendorid
+                                            }).then(response=>{
+                                                console.log(response);
+                                            }).catch(err=>{
+                                                alert("error while deleting");
+                                                console.log(err);
+                                            })
+                                        }}>Delete</button>
                                     </td>
                                 </tr>
                             </table>

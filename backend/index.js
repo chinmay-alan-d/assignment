@@ -85,6 +85,16 @@ app.post("/edit",(req,res)=>{
     res.status(401);
 })
 
+app.post("/delete",(req,res)=>{
+    const vendorid = req.body['vendorid'];
+    connection.query(`DELETE FROM vendors WHERE vendorid = "${vendorid}"`,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send("ok");
+    })
+    // res.send('Error');
+});
+
 app.listen(PORT,()=>{
     console.log(`server running on PORT ${PORT}`);
 })
