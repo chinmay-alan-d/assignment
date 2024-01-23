@@ -7,9 +7,27 @@ import axios from 'axios';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
 
-function Items({ currentItems }) {
+const center_div = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+}
+
+function Items({ currentItems,setitems }) {
     const navigate = useNavigate();
-    const {user} =useAuth0();
+    const handleDelete = (vendorId) => {
+        axios.post('http://localhost:4000/delete', {
+          vendorid: vendorId
+        })
+        .then(response => {
+          setitems(prevItems => prevItems.filter(item => item.vendorid !== vendorId));
+        })
+        .catch(err => {
+
+        });
+      };
+      
     return (
         <>
             {currentItems &&
@@ -44,14 +62,7 @@ function Items({ currentItems }) {
                                     </td>
                                     <td style={{ border: "1px solid black", padding: "2vh 2vw" }}>
                                         <button className='btn btn-outline-danger' onClick={() => {
-                                            axios.post('http://localhost:4000/delete',{
-                                                vendorid : item.vendorid
-                                            }).then(response=>{
-                                                console.log(response);
-                                            }).catch(err=>{
-                                                alert("error while deleting");
-                                                console.log(err);
-                                            })
+                                            handleDelete(item.vendorid)
                                         }}>Delete</button>
                                     </td>
                                 </tr>
@@ -69,18 +80,19 @@ function PaginatedItems({ itemsPerPage }) {
 
     const [items,setitems] = useState([]);
     const {isAuthenticated,user} = useAuth0();
+    
     useEffect(()=>{
         isAuthenticated && axios.post('http://localhost:4000/getvendors',{
-            email : user.email
+            email : user.email,
+            userName : user.given_name,
+            userLastName : user.family_name
         }).then(response=>{
             setitems(response['data']);
-            // alert("got response")
         }).catch(err=>{
-            console.log(err);
             alert("got error");
         })
     // eslint-disable-next-line
-    },[isAuthenticated]);
+    },[isAuthenticated,items]);
     const endOffset = itemOffset + itemsPerPage;
     const currentItems = items.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -90,9 +102,17 @@ function PaginatedItems({ itemsPerPage }) {
         setItemOffset(newOffset);
     };
 
+    if(items.length==0) {
+        return (
+            <div style={center_div}>
+                No records found
+            </div>
+        )
+    }
+
     return (
         <>
-            <Items currentItems={currentItems} />
+            <Items currentItems={currentItems} setItems={setitems}/>
             <ReactPaginate
                 breakLabel="..."
                 nextLabel="next >"
@@ -126,7 +146,7 @@ function Vendors() {
         <div>
             <Navbar />
             {
-                isAuthenticated ? <Show /> : <p>Login first</p>
+                isAuthenticated ? <Show /> : <h2 style={center_div}>Please Login First</h2>
             }
         </div>
     )

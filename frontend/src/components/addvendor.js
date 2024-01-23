@@ -74,7 +74,7 @@ function AddVendor() {
         <div>
             <Navbar />
             {
-                !isAuthenticated ? <p>Please Login</p> : <ShowForm/>
+                !isAuthenticated ? <h2 style={center_div}>Please Login First</h2> : <ShowForm/>
             }
         </div>
     );

@@ -61,6 +61,8 @@ app.post('/addvendor',(req,res)=>{
 
 app.post('/getvendors',(req,res)=>{
     const email = req.body.email;
+    const userName = req.body.userName;
+    const userLastName = req.body.userLastName;
     connection.query(`SELECT userid FROM user WHERE userEmail="${email}"`,(iderr,idresponse)=>{
         if(iderr) throw iderr;
         const id = idresponse[0]['userid'];
@@ -94,6 +96,23 @@ app.post("/delete",(req,res)=>{
     })
     // res.send('Error');
 });
+
+app.post('/vendorDetail',(req,res)=>{
+    const id = req.body.id;
+    connection.query(`SELECT * FROM vendors WHERE vendorid="${id}"`,(err,response)=>{
+        console.log(response);
+        if(err) throw err;
+        res.json(
+            {
+                addressLineOne : response[0]['addressLineOne'],
+                addressLineTwo : response[0]['addressLineTwo'],
+                city : response[0]['city'],
+                zipCode : response[0]['zipCode'],
+                vendorName : response[0]['vendorName']
+            }
+        )
+    })
+})
 
 app.listen(PORT,()=>{
     console.log(`server running on PORT ${PORT}`);

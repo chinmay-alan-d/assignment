@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AddVendor from "./components/addvendor";
-// import Vendor from "./components/vendor";
 import reportWebVitals from './reportWebVitals';
 import Profile from './components/profile';
 import { Auth0Provider } from '@auth0/auth0-react';

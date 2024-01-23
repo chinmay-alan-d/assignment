@@ -1,20 +1,21 @@
 import Navbar from "./Navbar";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const NotAuthenticated = () => {
-    return (
-        <>
-            <h1>Please Login to view Profile</h1>
-        </>
-    )
-}
-
 const center_div = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%,-50%)",
 }
+
+const NotAuthenticated = () => {
+    return (
+        <div style={center_div}>
+            <h2>Please Login First</h2>
+        </div>
+    )
+}
+
 
 const LoadScreen = () => {
     return (
